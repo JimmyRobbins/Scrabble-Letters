@@ -1,17 +1,6 @@
 import string
+import tiles
 
-EXISTING_TILES = (
-    ("G", "V"),
-    ("D", "O"),
-    ("W", "F"),
-    ("C", "I"),
-    ("T", "E"),
-    ("H", "Y"),
-    ("R", "A"),
-    ("N", "L"),
-    ("K", "M"),
-    ("S", "A")
-)
 
 # Currently greedy (always takes first matching tile)
 # How can I account for duplicate letters?
@@ -24,7 +13,7 @@ def can_be_spelled(word, tiles=()):
 
     # use EXISTING_TILES if available_tiles isn't specified
     if tiles == ():
-        available_tiles=list(EXISTING_TILES)
+        available_tiles=list(tiles.EXISTING_TILES)
     else:
         available_tiles=list(tiles)
 
