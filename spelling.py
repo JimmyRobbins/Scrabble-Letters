@@ -5,17 +5,17 @@ import tiles
 # Currently greedy (always takes first matching tile)
 # How can I account for duplicate letters?
 
-def can_be_spelled(word, tiles=()):
+def can_be_spelled(word, useable_tiles=()):
 
     # capitalize word and eliminate all whitespace
     word = word.upper().translate({ord(c): None for c in string.whitespace})
     print(word)
 
     # use EXISTING_TILES if available_tiles isn't specified
-    if tiles == ():
+    if useable_tiles == ():
         available_tiles=list(tiles.EXISTING_TILES)
     else:
-        available_tiles=list(tiles)
+        available_tiles=list(useable_tiles)
 
     # use i to generate subwords for recursively testing tile options
     for i, letter in enumerate(word):
