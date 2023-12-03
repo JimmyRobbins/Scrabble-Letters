@@ -3,16 +3,31 @@ import spelling
 
 words_and_values = ()
 
+# read custom words and points
 with open('words.csv', mode='r') as words:
     reader = csv.reader(words)
     good_rows = (row for row in reader if len(row)==2)
-    words_and_values = {row[0]:int(row[1]) for row in good_rows}
+    custom_words = {row[0]:int(row[1]) for row in good_rows}
+
+#read top 1000 words and points
+with open('1-1000.txt', mode='r') as top_1000:
+    top_words = tuple(line.strip() for line in top_1000)
+
+
 
 def score_tileset(tileset=()):
     score = 0
-    for word, value in words_and_values.items():
-        print(f"testing {word}")
+    spelled_words = []
+    # test csutom words
+    for word, value in custom_words.items():
         if spelling.can_be_spelled(word, tileset):
-            print(f"spelled {word} for {value} points")
+            spelled_words.append(word)
             score += value
-    return score
+
+    # test top 1000 words
+    for word in top_words:
+        if spelling.can_be_spelled(word, tileset):
+            spelled_words.append(word)
+            score += 1
+
+    return score, spelled_words
