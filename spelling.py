@@ -1,6 +1,6 @@
+import string
 
-
-existing_tiles = (
+EXISTING_TILES = (
     ("G", "V"),
     ("D", "O"),
     ("W", "F"),
@@ -18,9 +18,13 @@ existing_tiles = (
 
 def can_be_spelled(word, tiles=()):
 
-    # use existing_tiles if available_tiles isn't specified
+    # capitalize word and eliminate all whitespace
+    word = word.upper().translate({ord(c): None for c in string.whitespace})
+    print(word)
+
+    # use EXISTING_TILES if available_tiles isn't specified
     if tiles == ():
-        available_tiles=list(existing_tiles)
+        available_tiles=list(EXISTING_TILES)
     else:
         available_tiles=list(tiles)
 
