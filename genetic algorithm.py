@@ -109,6 +109,25 @@ ga_instance = pygad.GA(num_generations=num_generations,
 def go():
     ga_instance.run()
 
+def evaluate_tileset(tileset):
+    # check the custom words
+    failed_a_custom_word = False
+    for w in words.custom_words:
+        if not spelling.can_be_spelled(w, tileset + tiles.EXISTING_TILES):               
+            failed_a_custom_word = True
+            print(f"Oh NO!!! I can't spell {w}")
+    if failed_a_custom_word == False:
+        print("I can spell all the custom words!")
+    
+    # check the top words
+    other_words_can_spell = sorted(
+        words.words_with_tiles(tileset + tiles.EXISTING_TILES),
+        key=len,
+        reverse=True)
+    print(f"I can also spell {len(other_words_can_spell)} of the top words...")
+    print(other_words_can_spell)
+
+
 def report():
     solution=ga_instance.best_solution()
 
@@ -117,23 +136,4 @@ def report():
     best = tiles_numbers_to_letters(solution[0])
     print(best)
 
-    print("can spell...")
-    print(
-        sorted(words.words_with_tiles(tiles_numbers_to_letters(solution[0])),
-        key=len,
-        reverse=True)
-        )
-    
-    failed_a_custom_word = False
-    for w in words.custom_words:
-        if not spelling.can_be_spelled(w, best + tiles.EXISTING_TILES):
-            failed_a_custom_word = True
-            print(f"Oh NO!!! I can't spell {w}")
-    if failed_a_custom_word == False:
-        print("I can spell all the custom words!")
-
-    other_words_can_spell = 0
-    for w in words.top_words:
-        if spelling.can_be_spelled(w, best + tiles.EXISTING_TILES):
-            other_words_can_spell += 1
-    print(f"I can spell {other_words_can_spell} of the top 1000 words!")
+    evaluate_tileset(best)
