@@ -9,7 +9,6 @@ def can_be_spelled(word, useable_tiles=()):
 
     # capitalize word and eliminate all whitespace
     word = word.upper().translate({ord(c): None for c in string.whitespace})
-    print(word)
 
     # use EXISTING_TILES if available_tiles isn't specified
     if useable_tiles == ():

@@ -1,15 +1,45 @@
-import tiles
+import words
 import spelling
+import tiles
+
 import string
-import random
-import numpy
+import itertools
 
-all_tiles = ((ord(letter1), ord(letter2)) for letter1 in string.ascii_uppercase for letter2 in string.ascii_uppercase)
+all_tiles = tuple((
+    (letter1, letter2)
+      for letter1 in string.ascii_uppercase 
+      for letter2 in string.ascii_uppercase))
 
-tiles_as_numbers = numpy.random.randint(65, 90, 32)
+all_two_tiles = (
+    (tile1, tile2) 
+    for tile1 in all_tiles 
+    for tile2 in all_tiles)
 
-def tiles_numbers_to_letters(numbers_array):
-    return tuple((chr(numbers_array[i]), chr(numbers_array[i+1])) for i in range(0, len(numbers_array), 2))
+all_three_tiles = (
+    (tile1, tile2, tile3)
+    for tile1 in all_tiles
+    for tile2 in all_tiles
+    for tile3 in all_tiles
+)
 
-def fitness_func(ga_instance, solution, solution_idx):
-    tiles_as_letters = (())
+def all_n_tiles(n):
+    return itertools.product(all_tiles, repeat=n)
+
+word_list = words.custom_words
+
+
+def test(tileset=all_n_tiles(2)):
+    for n_tiles in tileset:
+        failed = False
+        if failed:
+            failed = False
+            continue
+        for w in word_list:
+            if not spelling.can_be_spelled(w, tiles.EXISTING_TILES + n_tiles):
+                failed = True
+                break
+        if failed == False:
+            return two_tiles
+    return False
+
+test()

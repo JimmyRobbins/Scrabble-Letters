@@ -3,6 +3,9 @@ import spelling
 
 words_and_values = ()
 
+best_score = 0
+best_words = []
+
 # read custom words and points
 with open('words.csv', mode='r') as words:
     reader = csv.reader(words)
@@ -21,6 +24,25 @@ def score_tileset(tileset=()):
     # test csutom words
     for word, value in custom_words.items():
         if spelling.can_be_spelled(word, tileset):
+            score += value
+
+    # test top 1000 words
+    for word in top_words:
+        if spelling.can_be_spelled(word, tileset):
+            spelled_words.append(word)
+            score += 1
+
+    if score > best_score:
+        best_words = spelled_words
+
+    return score#, spelled_words
+
+def words_with_tiles(tileset=()):
+    score = 0
+    spelled_words = []
+    # test csutom words
+    for word, value in custom_words.items():
+        if spelling.can_be_spelled(word, tileset):
             spelled_words.append(word)
             score += value
 
@@ -30,4 +52,7 @@ def score_tileset(tileset=()):
             spelled_words.append(word)
             score += 1
 
-    return score, spelled_words
+    if score > best_score:
+        best_words = spelled_words
+
+    return spelled_words
