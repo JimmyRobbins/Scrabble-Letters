@@ -62,10 +62,10 @@ def fitness_func(ga_instance, solution, solution_idx):
 
 fitness_function = fitness_func
 
-num_generations = 50
+num_generations = 100
 num_parents_mating = 4
 
-sol_per_pop = 12
+sol_per_pop = 20
 num_genes = len(function_inputs)
 gene_type = int
 
@@ -108,6 +108,7 @@ ga_instance = pygad.GA(num_generations=num_generations,
 
 def go():
     ga_instance.run()
+    report()
 
 def evaluate_tileset(tileset):
     # check the custom words
@@ -118,6 +119,14 @@ def evaluate_tileset(tileset):
             print(f"Oh NO!!! I can't spell {w}")
     if failed_a_custom_word == False:
         print("I can spell all the custom words!")
+    
+    all_letters = True
+    for letter in string.ascii_uppercase:
+        if letter not in [l for tile in tileset+tiles.EXISTING_TILES for l in tile]:
+            print(f"doesn't contain {letter}")
+            all_letters=False
+    if all_letters:
+        print("containts all letters")
     
     # check the top words
     other_words_can_spell = sorted(
@@ -132,8 +141,10 @@ def report():
     solution=ga_instance.best_solution()
 
     print(f"score: {solution[1]}, generation: {ga_instance.best_solution_generation}")
+    print()
     print(f"tiles:")
     best = tiles_numbers_to_letters(solution[0])
     print(best)
+    print()
 
     evaluate_tileset(best)
